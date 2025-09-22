@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { GoogleGenAI } from "@google/genai";
 import './index.css';
 
 /**
@@ -21,10 +21,20 @@ const projectData = [
       challenge: "The client's existing kitchen was outdated, cramped, and lacked functionality for a growing family. The primary challenge was to create an open-concept space that was both aesthetically pleasing and highly practical, all within a tight budget and timeline.",
       solution: "We began by removing a non-structural wall to merge the kitchen and dining areas. We installed custom, floor-to-ceiling cabinetry to maximize storage, integrated state-of-the-art smart appliances, and added a large central island that serves as both a workspace and a social hub. Quartz countertops and a herringbone backsplash completed the modern, elegant look."
     },
+    beforeAfter: {
+        before: 'https://images.pexels.com/photos/8134936/pexels-photo-8134936.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        after: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    },
     gallery: [
       'https://images.pexels.com/photos/3926542/pexels-photo-3926542.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/2827400/pexels-photo-2827400.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    timeline: [
+        { stage: 'Phase 1: Consultation & Design', description: 'Collaborated with the client to create a detailed blueprint, selecting materials and finalizing the layout.' },
+        { stage: 'Phase 2: Demolition & Preparation', description: 'Safely removed old fixtures and prepared the space for new construction, ensuring a clean slate.' },
+        { stage: 'Phase 3: Construction & Installation', description: 'Framed new walls, installed custom cabinetry, and fitted all new appliances and fixtures.' },
+        { stage: 'Phase 4: Finishing Touches & Handover', description: 'Applied paint, installed backsplash, and conducted a final walkthrough with the client to ensure complete satisfaction.' }
     ]
   },
   {
@@ -37,10 +47,20 @@ const projectData = [
       challenge: "To convert a conventional master bathroom into a luxurious, spa-like sanctuary. The client wanted a freestanding tub, a spacious walk-in shower with multiple showerheads, and high-end finishes that would evoke a sense of tranquility and opulence.",
       solution: "Our team reconfigured the layout to accommodate a stunning freestanding soaking tub as the centerpiece. We constructed a large, curb-less walk-in shower with marble tiles, a rain showerhead, and body jets. A double vanity with vessel sinks and backlit mirrors was installed, along with heated flooring for ultimate comfort. The result is a serene and sophisticated personal spa."
     },
+    beforeAfter: {
+        before: 'https://images.pexels.com/photos/6620949/pexels-photo-6620949.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        after: 'https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    },
     gallery: [
        'https://images.pexels.com/photos/6625129/pexels-photo-6625129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
        'https://images.pexels.com/photos/5998136/pexels-photo-5998136.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
        'https://images.pexels.com/photos/6588977/pexels-photo-6588977.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    timeline: [
+        { stage: 'Phase 1: Initial Concept', description: 'Worked with the client to define the spa-like aesthetic and select premium materials and fixtures.' },
+        { stage: 'Phase 2: Plumbing & Electrical', description: 'Reconfigured all plumbing and electrical systems to accommodate the new layout and features.' },
+        { stage: 'Phase 3: Tiling & Installation', description: 'Expertly installed marble tiling, the freestanding tub, and the custom walk-in shower.' },
+        { stage: 'Phase 4: Final Inspection', description: 'Conducted a meticulous final review to ensure every detail met our high standards of quality.' }
     ]
   },
   {
@@ -53,10 +73,20 @@ const projectData = [
         challenge: "A fast-growing tech startup needed a new headquarters that would foster collaboration, reflect their innovative brand, and attract top talent. The raw industrial space they acquired required a full build-out, including creating distinct zones for focused work, team meetings, and relaxation.",
         solution: "We designed a dynamic, open-plan office with designated 'neighborhoods' for different teams. Glass-walled meeting rooms and private phone booths were strategically placed to offer quiet spaces without sacrificing the sense of openness. A central café and lounge area were created to encourage social interaction. The design incorporated the company's branding through custom murals and a modern-industrial aesthetic with exposed brick and ductwork."
     },
+    beforeAfter: {
+        before: 'https://images.pexels.com/photos/279703/pexels-photo-279703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        after: 'https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    },
     gallery: [
       'https://images.pexels.com/photos/1181414/pexels-photo-1181414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    ],
+    timeline: [
+        { stage: 'Phase 1: Space Planning', description: 'Developed a comprehensive floor plan to optimize workflow and create collaborative zones.' },
+        { stage: 'Phase 2: Full Build-Out', description: 'Constructed walls, installed electrical and data infrastructure, and laid flooring.' },
+        { stage: 'Phase 3: Interior Finishing', description: 'Installed custom millwork, glass partitions, and applied company branding elements.' },
+        { stage: 'Phase 4: Furniture & Handover', description: 'Coordinated furniture delivery and setup, ensuring the space was move-in ready for the client.' }
     ]
   },
   {
@@ -69,10 +99,20 @@ const projectData = [
         challenge: "The clients wanted to transform their generic, underutilized living room into a cozy, multi-functional space for family gatherings, reading, and entertainment. The room had awkward dimensions and poor lighting, making it feel unwelcoming.",
         solution: "We introduced a warm, layered lighting scheme with dimmable fixtures to create ambiance. Custom built-in shelving and cabinetry were designed to house their book collection and media equipment, which also helped to visually balance the room's proportions. We curated a selection of comfortable, stylish furniture arranged in a conversational layout, and used a palette of warm, earthy tones to create the inviting atmosphere the clients desired."
     },
+    beforeAfter: {
+        before: 'https://images.pexels.com/photos/439227/pexels-photo-439227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        after: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    },
     gallery: [
       'https://images.pexels.com/photos/6434623/pexels-photo-6434623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       'https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    ],
+     timeline: [
+        { stage: 'Phase 1: Mood Board & Layout', description: 'Created a visual concept and furniture layout to capture the desired cozy atmosphere.' },
+        { stage: 'Phase 2: Custom Cabinetry', description: 'Designed, built, and installed the custom shelving and media unit to fit the space perfectly.' },
+        { stage: 'Phase 3: Furniture & Lighting', description: 'Sourced and arranged all furniture, and installed a new layered lighting system.' },
+        { stage: 'Phase 4: Styling & Final Reveal', description: 'Added final decorative touches like rugs, curtains, and art to complete the transformation.' }
     ]
   }
 ];
@@ -121,15 +161,12 @@ const Header = ({ theme, onThemeToggle, setPage }) => {
   
   const handleNavClick = (e, pageName) => {
     e.preventDefault();
-    // FIX: The 'page' state object requires a 'data' property.
     setPage({ name: pageName, data: null });
     setIsMenuOpen(false);
   };
 
   const handleHomeLinkClick = (e, hash) => {
     e.preventDefault();
-    // Set page to home, then scroll
-    // FIX: The 'page' state object requires a 'data' property.
     setPage({ name: 'home', data: null }); 
     setIsMenuOpen(false);
     
@@ -140,7 +177,7 @@ const Header = ({ theme, onThemeToggle, setPage }) => {
         } else if (hash === '#home') {
             window.scrollTo({ top: 0, behavior: 'smooth'});
         }
-    }, 0); // setTimeout ensures the home page components are rendered before scrolling
+    }, 0);
   };
 
 
@@ -188,32 +225,100 @@ const Hero = ({ onGetQuoteClick }) => (
   </section>
 );
 
-const Projects = ({ onProjectClick }) => (
-  <section id="projects" className="projects">
-    <div className="container">
-      <h2>Our Projects</h2>
-      <div className="projects-grid">
-        {projectData.map((project) => (
-          <div 
-            className="project-card" 
-            key={project.id} 
-            onClick={() => onProjectClick(project)}
-            role="button"
-            tabIndex={0}
-            onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && onProjectClick(project)}
-          >
-            <img src={project.image} alt={project.title} />
-            <div className="card-content">
-              <span className="category-tag">{project.category}</span>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+const Projects = ({ onProjectClick }) => {
+  const categories = ['All', ...new Set(projectData.map(p => p.category))];
+  const [activeFilter, setActiveFilter] = React.useState('All');
+  const [filteredProjects, setFilteredProjects] = React.useState(projectData);
+  const gridRef = React.useRef(null);
+
+  const handleFilterClick = (category) => {
+    if (category === activeFilter) return;
+
+    if (gridRef.current) {
+      const cards = gridRef.current.querySelectorAll('.project-card.visible');
+      cards.forEach(card => card.classList.remove('visible'));
+    }
+    
+    setTimeout(() => {
+      setActiveFilter(category);
+    }, 500);
+  };
+
+  React.useEffect(() => {
+    if (activeFilter === 'All') {
+      setFilteredProjects(projectData);
+    } else {
+      setFilteredProjects(projectData.filter(p => p.category === activeFilter));
+    }
+  }, [activeFilter]);
+
+  React.useEffect(() => {
+    const cards = document.querySelectorAll('.project-card');
+    
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '0px',
+      threshold: 0.1
+    });
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+
+    return () => {
+        observer.disconnect();
+    };
+  }, [filteredProjects]);
+
+  return (
+    <section id="projects" className="projects">
+      <div className="container">
+        <h2>Our Projects</h2>
+        <div className="filter-controls" aria-label="Project categories">
+          {categories.map(category => (
+            <button
+              key={category}
+              className={`filter-btn ${activeFilter === category ? 'active' : ''}`}
+              onClick={() => handleFilterClick(category)}
+              aria-pressed={activeFilter === category}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <div className="projects-grid" ref={gridRef}>
+          {filteredProjects.map((project, index) => (
+            <div 
+              className="project-card" 
+              key={project.id} 
+              onClick={() => onProjectClick(project)}
+              role="button"
+              tabIndex={0}
+              onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && onProjectClick(project)}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <img src={project.image} alt={project.title} />
+              <div className="card-content">
+                <span className="category-tag">{project.category}</span>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
+
 
 const Testimonials = () => (
   <section id="testimonials" className="testimonials">
@@ -304,6 +409,124 @@ const AboutPage = () => (
     </section>
 );
 
+const BeforeAfterSlider = ({ before, after }) => {
+  const [sliderPosition, setSliderPosition] = React.useState(50);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const sliderRef = React.useRef(null);
+
+  const handleMove = (clientX) => {
+    if (!isDragging || !sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    let percentage = (x / rect.width) * 100;
+    percentage = Math.max(0, Math.min(100, percentage));
+    setSliderPosition(percentage);
+  };
+
+  const startDragging = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+  const stopDragging = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => handleMove(e.clientX);
+  const handleTouchMove = (e) => handleMove(e.touches[0].clientX);
+
+  React.useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('mouseup', stopDragging);
+      window.addEventListener('touchend', stopDragging);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('mouseup', stopDragging);
+      window.removeEventListener('touchend', stopDragging);
+    };
+  }, [isDragging]);
+
+  return (
+    <div
+      className="before-after-slider"
+      ref={sliderRef}
+      onMouseLeave={stopDragging}
+    >
+      <div
+        className="before-image-wrapper"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
+        <img src={before} alt="Before renovation" className="before-image" />
+      </div>
+      <img src={after} alt="After renovation" className="after-image" />
+      <div
+        className="slider-line"
+        style={{ left: `${sliderPosition}%` }}
+      />
+      <div
+        className="slider-handle-wrapper"
+        style={{ left: `${sliderPosition}%` }}
+        onMouseDown={startDragging}
+        onTouchStart={startDragging}
+        aria-label="Drag to compare before and after images"
+        role="slider"
+        aria-valuenow={sliderPosition}
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div className="handle-arrows">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+              <polyline points="9 18 3 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProjectTimeline = ({ timeline }) => {
+    React.useEffect(() => {
+        const items = document.querySelectorAll('.timeline-item');
+        if (items.length === 0) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.5
+        });
+
+        items.forEach(item => observer.observe(item));
+
+        return () => observer.disconnect();
+    }, [timeline]);
+
+    return (
+        <div className="project-timeline-container">
+            <h3>Project Journey</h3>
+            <div className="timeline">
+                {timeline.map((item, index) => (
+                    <div className="timeline-item" key={index}>
+                        <div className="timeline-dot"></div>
+                        <div className="timeline-content">
+                            <h4>{item.stage}</h4>
+                            <p>{item.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const ShowcasePage = ({ project, onBack }) => (
     <section className="showcase-page">
         <div className="showcase-header" style={{ backgroundImage: `url(${project.image})` }}>
@@ -327,6 +550,19 @@ const ShowcasePage = ({ project, onBack }) => (
                     <p>{project.details.solution}</p>
                 </div>
             </div>
+            
+            {project.timeline && <ProjectTimeline timeline={project.timeline} />}
+
+            {project.beforeAfter && (
+                <div className="before-after-container">
+                    <h3>Transformative Results</h3>
+                    <BeforeAfterSlider
+                        before={project.beforeAfter.before}
+                        after={project.beforeAfter.after}
+                    />
+                </div>
+            )}
+
             <div className="showcase-gallery">
                 <h3>Project Gallery</h3>
                 <div className="gallery-grid">
@@ -394,6 +630,150 @@ const QuoteModal = ({ isOpen, onClose }) => {
     );
 };
 
+const DreamVisualizer = () => {
+  const [prompt, setPrompt] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [loadingMessage, setLoadingMessage] = React.useState('');
+  const [videoUrl, setVideoUrl] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const loadingIntervalRef = React.useRef<number | null>(null);
+
+  const loadingMessages = [
+    "Our digital architects are sketching your vision...",
+    "Laying the virtual foundation...",
+    "Consulting the blueprints...",
+    "Polishing the final renders...",
+    "This can take a few minutes, great ideas need time to build!",
+    "Assembling the digital framework...",
+    "Finalizing the design details...",
+  ];
+
+  React.useEffect(() => {
+    return () => {
+      if (loadingIntervalRef.current) {
+        clearInterval(loadingIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const handleGenerateVideo = async () => {
+    if (!prompt.trim()) {
+      setError("Please describe your dream project first.");
+      return;
+    }
+
+    setIsLoading(true);
+    setVideoUrl(null);
+    setError(null);
+    setLoadingMessage(loadingMessages[0]);
+
+    let messageIndex = 0;
+    loadingIntervalRef.current = window.setInterval(() => {
+      messageIndex = (messageIndex + 1) % loadingMessages.length;
+      setLoadingMessage(loadingMessages[messageIndex]);
+    }, 4000);
+
+    try {
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      let operation = await ai.models.generateVideos({
+        model: 'veo-2.0-generate-001',
+        prompt: `A high-quality, cinematic video of: ${prompt}`,
+        config: {
+          numberOfVideos: 1
+        }
+      });
+
+      while (!operation.done) {
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        operation = await ai.operations.getVideosOperation({ operation: operation });
+      }
+
+      const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
+
+      if (downloadLink) {
+        const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch video: ${response.statusText}`);
+        }
+        const videoBlob = await response.blob();
+        const url = URL.createObjectURL(videoBlob);
+        setVideoUrl(url);
+      } else {
+        throw new Error("Video generation failed. No download link was provided.");
+      }
+
+    } catch (err) {
+      console.error(err);
+      setError("Sorry, our digital architect got a little stuck. Please try refining your description or try again later.");
+      setVideoUrl(null);
+    } finally {
+      setIsLoading(false);
+      if (loadingIntervalRef.current) {
+        clearInterval(loadingIntervalRef.current);
+        loadingIntervalRef.current = null;
+      }
+    }
+  };
+
+  const handleStartOver = () => {
+    setPrompt('');
+    setVideoUrl(null);
+    setError(null);
+    setIsLoading(false);
+  };
+
+  return (
+    <section className="dream-visualizer">
+      <div className="container">
+        <h2>Visualize Your Dream Project</h2>
+        <p>Can't find the words? Let our AI generate a video concept of your next big idea. Describe your dream kitchen, bathroom, or office space below.</p>
+
+        {!videoUrl && !isLoading &&(
+          <div className="visualizer-form">
+            <textarea
+              placeholder="e.g., A modern, open-concept kitchen with a large marble island, dark wood cabinets, and floor-to-ceiling windows overlooking a forest..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              disabled={isLoading}
+              aria-label="Describe your dream project"
+            />
+            <button className="btn btn-primary" onClick={handleGenerateVideo} disabled={isLoading}>
+              {isLoading ? 'GENERATING...' : 'VISUALIZE MY DREAM'}
+            </button>
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <p className="loading-message">{loadingMessage}</p>
+          </div>
+        )}
+
+        {error && !isLoading && (
+          <div className="error-message">
+            <p>{error}</p>
+          </div>
+        )}
+        
+        {videoUrl && !isLoading && (
+          <div className="video-result">
+            <div className="video-container">
+              <video src={videoUrl} controls autoPlay loop muted>
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div className="video-actions">
+               <a href={videoUrl} download="dream_project.mp4" className="btn btn-secondary">DOWNLOAD VIDEO</a>
+               <button onClick={handleStartOver} className="btn btn-primary">START OVER</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
 const Footer = () => (
     <footer className="footer">
         <div className="container"><p>&copy; {new Date().getFullYear()} Constructive & Co. All Rights Reserved.</p></div>
@@ -433,7 +813,6 @@ const App = () => {
         case 'about':
             return <AboutPage />;
         case 'showcase':
-            // FIX: The 'page' state object requires a 'data' property.
             return <ShowcasePage project={page.data} onBack={() => setPage({ name: 'home', data: null })} />;
         case 'home':
         default:
@@ -442,6 +821,7 @@ const App = () => {
                     <Hero onGetQuoteClick={handleOpenQuoteModal} />
                     <Projects onProjectClick={handleProjectClick} />
                     <Testimonials />
+                    <DreamVisualizer />
                     <Contact />
                 </>
             );
