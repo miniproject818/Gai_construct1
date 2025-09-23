@@ -41,7 +41,7 @@ const projectData = [
     id: 2,
     title: 'Luxury Bathroom Suite',
     category: 'Renovation',
-    image: 'https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: 'https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     description: 'Transforming a standard bathroom into a spa-like retreat with premium fixtures.',
      details: {
       challenge: "To convert a conventional master bathroom into a luxurious, spa-like sanctuary. The client wanted a freestanding tub, a spacious walk-in shower with multiple showerheads, and high-end finishes that would evoke a sense of tranquility and opulence.",
@@ -52,7 +52,7 @@ const projectData = [
         after: 'https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     },
     gallery: [
-       'https://images.pexels.com/photos/6625129/pexels-photo-6625129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+       'https://images.pexels.com/photos/1454804/pexels-photo-1454804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
        'https://images.pexels.com/photos/5998136/pexels-photo-5998136.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
        'https://images.pexels.com/photos/6588977/pexels-photo-6588977.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     ],
@@ -630,150 +630,6 @@ const QuoteModal = ({ isOpen, onClose }) => {
     );
 };
 
-const DreamVisualizer = () => {
-  const [prompt, setPrompt] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [loadingMessage, setLoadingMessage] = React.useState('');
-  const [videoUrl, setVideoUrl] = React.useState<string | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
-  const loadingIntervalRef = React.useRef<number | null>(null);
-
-  const loadingMessages = [
-    "Our digital architects are sketching your vision...",
-    "Laying the virtual foundation...",
-    "Consulting the blueprints...",
-    "Polishing the final renders...",
-    "This can take a few minutes, great ideas need time to build!",
-    "Assembling the digital framework...",
-    "Finalizing the design details...",
-  ];
-
-  React.useEffect(() => {
-    return () => {
-      if (loadingIntervalRef.current) {
-        clearInterval(loadingIntervalRef.current);
-      }
-    };
-  }, []);
-
-  const handleGenerateVideo = async () => {
-    if (!prompt.trim()) {
-      setError("Please describe your dream project first.");
-      return;
-    }
-
-    setIsLoading(true);
-    setVideoUrl(null);
-    setError(null);
-    setLoadingMessage(loadingMessages[0]);
-
-    let messageIndex = 0;
-    loadingIntervalRef.current = window.setInterval(() => {
-      messageIndex = (messageIndex + 1) % loadingMessages.length;
-      setLoadingMessage(loadingMessages[messageIndex]);
-    }, 4000);
-
-    try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      let operation = await ai.models.generateVideos({
-        model: 'veo-2.0-generate-001',
-        prompt: `A high-quality, cinematic video of: ${prompt}`,
-        config: {
-          numberOfVideos: 1
-        }
-      });
-
-      while (!operation.done) {
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        operation = await ai.operations.getVideosOperation({ operation: operation });
-      }
-
-      const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
-
-      if (downloadLink) {
-        const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch video: ${response.statusText}`);
-        }
-        const videoBlob = await response.blob();
-        const url = URL.createObjectURL(videoBlob);
-        setVideoUrl(url);
-      } else {
-        throw new Error("Video generation failed. No download link was provided.");
-      }
-
-    } catch (err) {
-      console.error(err);
-      setError("Sorry, our digital architect got a little stuck. Please try refining your description or try again later.");
-      setVideoUrl(null);
-    } finally {
-      setIsLoading(false);
-      if (loadingIntervalRef.current) {
-        clearInterval(loadingIntervalRef.current);
-        loadingIntervalRef.current = null;
-      }
-    }
-  };
-
-  const handleStartOver = () => {
-    setPrompt('');
-    setVideoUrl(null);
-    setError(null);
-    setIsLoading(false);
-  };
-
-  return (
-    <section className="dream-visualizer">
-      <div className="container">
-        <h2>Visualize Your Dream Project</h2>
-        <p>Can't find the words? Let our AI generate a video concept of your next big idea. Describe your dream kitchen, bathroom, or office space below.</p>
-
-        {!videoUrl && !isLoading &&(
-          <div className="visualizer-form">
-            <textarea
-              placeholder="e.g., A modern, open-concept kitchen with a large marble island, dark wood cabinets, and floor-to-ceiling windows overlooking a forest..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              disabled={isLoading}
-              aria-label="Describe your dream project"
-            />
-            <button className="btn btn-primary" onClick={handleGenerateVideo} disabled={isLoading}>
-              {isLoading ? 'GENERATING...' : 'VISUALIZE MY DREAM'}
-            </button>
-          </div>
-        )}
-
-        {isLoading && (
-          <div className="loading-container">
-            <div className="spinner"></div>
-            <p className="loading-message">{loadingMessage}</p>
-          </div>
-        )}
-
-        {error && !isLoading && (
-          <div className="error-message">
-            <p>{error}</p>
-          </div>
-        )}
-        
-        {videoUrl && !isLoading && (
-          <div className="video-result">
-            <div className="video-container">
-              <video src={videoUrl} controls autoPlay loop muted>
-                Your browser does not support the video tag.
-              </video>
-            </div>
-            <div className="video-actions">
-               <a href={videoUrl} download="dream_project.mp4" className="btn btn-secondary">DOWNLOAD VIDEO</a>
-               <button onClick={handleStartOver} className="btn btn-primary">START OVER</button>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-};
-
 const Footer = () => (
     <footer className="footer">
         <div className="container"><p>&copy; {new Date().getFullYear()} Constructive & Co. All Rights Reserved.</p></div>
@@ -821,7 +677,6 @@ const App = () => {
                     <Hero onGetQuoteClick={handleOpenQuoteModal} />
                     <Projects onProjectClick={handleProjectClick} />
                     <Testimonials />
-                    <DreamVisualizer />
                     <Contact />
                 </>
             );
