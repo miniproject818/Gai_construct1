@@ -143,6 +143,21 @@ const Header = ({ theme, onThemeToggle, setPage }) => {
   const [isHeaderVisible, setIsHeaderVisible] = React.useState(true);
   const lastScrollY = React.useRef(0);
 
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      // Prevent scrolling on the body when the mobile menu is open
+      if (window.innerWidth <= 768) {
+        document.body.style.overflow = 'hidden';
+      }
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    // Cleanup function to restore scrolling
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
+
   const handleScroll = () => {
     if (window.scrollY > lastScrollY.current && window.scrollY > 100) {
       setIsHeaderVisible(false);
@@ -182,32 +197,35 @@ const Header = ({ theme, onThemeToggle, setPage }) => {
 
 
   return (
-    <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
-      <div className="container">
-        <a href="#home" className="logo" onClick={(e) => handleHomeLinkClick(e, '#home')}>Constructive & Co.</a>
-        <nav className={isMenuOpen ? 'open' : ''}>
-          <ul>
-            <li><a href="#home" onClick={(e) => handleHomeLinkClick(e, '#home')}>HOME</a></li>
-            <li><a href="#about" onClick={(e) => handleNavClick(e, 'about')}>ABOUT US</a></li>
-            <li><a href="#projects" onClick={(e) => handleHomeLinkClick(e, '#projects')}>PROJECTS</a></li>
-            <li><a href="#contact" onClick={(e) => handleHomeLinkClick(e, '#contact')}>CONTACT US</a></li>
-          </ul>
-        </nav>
-        <div className="header-actions">
-          <button onClick={onThemeToggle} className="theme-toggle" aria-label="Toggle theme">
-            {theme === 'light' ? '🌙' : '☀️'}
-          </button>
-          <button 
-            className="menu-toggle" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? '✕' : '☰'}
-          </button>
+    <>
+      {isMenuOpen && <div className="nav-overlay" onClick={() => setIsMenuOpen(false)}></div>}
+      <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
+        <div className="container">
+          <a href="#home" className="logo" onClick={(e) => handleHomeLinkClick(e, '#home')}>Constructive & Co.</a>
+          <nav className={isMenuOpen ? 'open' : ''}>
+            <ul>
+              <li><a href="#home" onClick={(e) => handleHomeLinkClick(e, '#home')}>HOME</a></li>
+              <li><a href="#about" onClick={(e) => handleNavClick(e, 'about')}>ABOUT US</a></li>
+              <li><a href="#projects" onClick={(e) => handleHomeLinkClick(e, '#projects')}>PROJECTS</a></li>
+              <li><a href="#contact" onClick={(e) => handleHomeLinkClick(e, '#contact')}>CONTACT US</a></li>
+            </ul>
+          </nav>
+          <div className="header-actions">
+            <button onClick={onThemeToggle} className="theme-toggle" aria-label="Toggle theme">
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
+            <button 
+              className="menu-toggle" 
+              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 
