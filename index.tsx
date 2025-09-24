@@ -145,16 +145,12 @@ const Header = ({ theme, onThemeToggle, setPage }) => {
 
   React.useEffect(() => {
     if (isMenuOpen) {
-      // Prevent scrolling on the body when the mobile menu is open
-      if (window.innerWidth <= 768) {
-        document.body.style.overflow = 'hidden';
-      }
+      document.body.classList.add('mobile-nav-open');
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.classList.remove('mobile-nav-open');
     }
-    // Cleanup function to restore scrolling
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.classList.remove('mobile-nav-open');
     };
   }, [isMenuOpen]);
 
